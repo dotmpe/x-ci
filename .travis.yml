@@ -9,7 +9,7 @@ env:
   global:
     - APP_ID=x-ci
 
-scripts:
+script:
   - docker run --rm \
     -e CGO_ENABLED=true \
     -e COMPRESS_BINARY=true \
