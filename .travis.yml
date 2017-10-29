@@ -54,4 +54,4 @@ deploy:
   on:
     repo: bvberkum/x-ci
     tags: true
-    condition: $FILE_EXISTS = 1
+# FIXME   condition: "$FILE_EXISTS" == "1"
