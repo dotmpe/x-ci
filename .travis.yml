@@ -8,14 +8,16 @@ language: go
 env:
   global:
     - APP_ID=x-ci
+    - BUILD_GOARCH="386 amd64 arm" 
 
 script:
   - docker run --rm
     -e CGO_ENABLED=true
     -e COMPRESS_BINARY=true
+    -e BUILD_GOARCH="$BUILD_GOARCH"
     -v "$(pwd -P):/src"
     -v /var/run/docker.sock:/var/run/docker.sock
-    centurylink/golang-builder $APP_ID:local
+    centurylink/golang-builder-cross $APP_ID:local
 
 after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
@@ -39,11 +41,11 @@ after_success:
     esac
 
 before_deploy:
-  - export RELEASE_PKG_FILE=$APP_ID
+  - export RELEASE_PKG_FILE="$(echo $APP_ID*)"
   - test -e "$RELEASE_PKG_FILE" && { export FILE_EXISTS=1;
-      echo "deploying $RELEASE_PKG_FILE to GitHub releases";
-    } || { export FILE_EXISTS=0;
-      echo "nothing to deploy to github"; }
+        echo "deploying $RELEASE_PKG_FILE to GitHub releases";
+      } || { export FILE_EXISTS=0;
+        echo "nothing to deploy to github '$RELEASE_PKG_FILE'"; }
 
 deploy:
   provider: releases
