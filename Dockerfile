@@ -1,3 +1,4 @@
 FROM scratch
-COPY x-ci /hello
+ARG bin=x-ci-linux-amd64
+COPY $bin /hello
 ENTRYPOINT ["/hello"]

@@ -9,11 +9,14 @@ env:
   global:
     - APP_ID=x-ci
     - BUILD_GOARCH="386 amd64 arm" 
+    - BUILD_GOOS="linux" 
+    - FILE_EXISTS=
 
 script:
   - docker run --rm
     -e CGO_ENABLED=true
     -e COMPRESS_BINARY=true
+    -e BUILD_GOOS="$BUILD_GOOS"
     -e BUILD_GOARCH="$BUILD_GOARCH"
     -v "$(pwd -P):/src"
     -v /var/run/docker.sock:/var/run/docker.sock
@@ -40,20 +43,23 @@ after_success:
         ;;
     esac
 
-before_deploy:
-  - export RELEASE_PKG_FILE="$(echo $APP_ID*)"
-  - test -e "$RELEASE_PKG_FILE" && { export FILE_EXISTS=1;
-        echo "deploying $RELEASE_PKG_FILE to GitHub releases";
-      } || { export FILE_EXISTS=0;
-        echo "nothing to deploy to github '$RELEASE_PKG_FILE'"; }
-
+#before_deploy:
+#  - export RELEASE_PKG_FILE=$(echo $APP_ID* | awk '{print $1}')
+#  - test -e "$RELEASE_PKG_FILE" && export FILE_EXISTS=1 || export FILE_EXISTS=0
+#  - test $FILE_EXISTS -eq 1 && echo "deploying $RELEASE_PKG_FILE to GitHub releases" || echo "nothing to deploy to github $RELEASE_PKG_FILE"
+  
 deploy:
   provider: releases
-  skip_cleanup: true
   api_key:
     secure: P5R2MJWoSgr8Ej8iMXNwhU4GVKGbwA6J3X9LnacPMsvHwLJCj4SIYPPeuNn5ASXJGzN6zX56y7NoCR3XI5s1LJeUJPRl74YKtq4Ckok+RjOEtWzz3G/EgzHuEJlHuBUDlRNTpi49S96PGZUdHmIpkKSzA4NFtcCB+AQYn0cFM+L0gm0hbygfIQQU+g8P9Mj877mW9NUq3sWaVqKRpuR0NNB21QHMDH2BPQKUkqRePKPi+VCNqAccuEm7NduNJ3NgKqkJ4s/NUgsliBHqo75uOJT7BzUGkT/gZsU+Th+M7t5jyBNJIv0obHpsu4MldBcb5iPNm1NBOzp5rBBAS/dalfYdHEVoe7pndkom+Tem4Lj6V16rbchba9no/Qt9b+SI/bdZsGquDy/FVYfgcx/1sgfWFLLvwD//k1jT3eAwtfF4OAlyaHXuYrnLOmfI0e0nGurJ4B9yjHuLnWr/COneQFYn11qvGZRNT006tyImEc+7oS8kLpyurTm6Y3KqEu1oN8PTwITaGUyypp0OoNMre2IdvbRarTN5pxsPD2kWs1Hl3i1pOyRj7kt6I8gjd4w6iTdVfXnbKwZu9l0wC9HkuVsDX/Ex9Gorz9qDNdUHeBPxyh1qG7wsxZz0TtVQlpM4vZoBfjv1b+puWDiHVytnDVwVEIYKkndSvKwiaTfUlBQ=
-  file: "${RELEASE_PKG_FILE}"
+  skip_cleanup: true
+  file:
+    - $APP_ID-linux-amd64
+    - $APP_ID-linux-386
+    - $APP_ID-linux-arm
   on:
     repo: bvberkum/x-ci
-    tags: true
-# FIXME   condition: "$FILE_EXISTS" == "1"
+    # NOTE: makes drafts but seems to err? branch: dev
+    tags: true # Create releases from version tags always seems to work
+    # FIXME conditional publish, try to prevent error
+    #condition: $FILE_EXISTS -eq 1
