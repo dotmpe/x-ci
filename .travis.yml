@@ -7,6 +7,7 @@ language: go
 
 env:
   global:
+    - NS_NAME=bvberkum
     - APP_ID=x-ci
     - BUILD_GOARCH="386 amd64 arm" 
     - BUILD_GOOS="linux" 
@@ -58,7 +59,7 @@ deploy:
     - $APP_ID-linux-386
     - $APP_ID-linux-arm
   on:
-    repo: bvberkum/$APP_ID
+    repo: $NS_NAME/$APP_ID
     # NOTE: makes drafts but seems to err? branch: dev
     tags: true # Create releases from version tags always seems to work
     # FIXME conditional publish, try to prevent error
