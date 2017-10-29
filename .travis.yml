@@ -1,0 +1,58 @@
+sudo: required
+
+services:
+  - docker
+
+language: go
+
+env:
+  global:
+    - APP_ID=x-ci
+
+scripts:
+  - docker run --rm \
+    -e CGO_ENABLED=true \
+    -e COMPRESS_BINARY=true \
+    -v "$(pwd -P):/src" \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    centurylink/golang-builder bvberkum/$APP_ID:local
+
+after_success:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+  - echo '---------' && env && echo '--------------'
+  - echo "Pushing $APP_ID:$TRAVIS_BRANCH or $APP_ID:$TRAVIS_TAG"
+  - case "$TRAVIS_BRANCH" in
+      dev )
+          docker tag $APP_ID:local $DOCKER_USERNAME/$APP_ID:dev;
+          docker push $DOCKER_USERNAME/$APP_ID:dev
+        ;;
+      master )
+          docker tag $APP_ID:local $DOCKER_USERNAME/$APP_ID:latest;
+          docker push $DOCKER_USERNAME/$APP_ID:latest
+        ;;
+    esac
+  - case "$TRAVIS_TAG" in
+      v[0-9]* )
+          tag="$(echo $TRAVIS_TAG | cut -c2-)";
+          docker tag $APP_ID:local $DOCKER_USERNAME/$APP_ID:$tag;
+          docker push $DOCKER_USERNAME/$APP_ID:$tag
+        ;;
+    esac
+
+before_deploy:
+  - export RELEASE_PKG_FILE=$APP_ID
+  - test -e "$RELEASE_PKG_FILE" && { export FILE_EXISTS=1; \
+      echo "deploying $RELEASE_PKG_FILE to GitHub releases"; \
+    } || { export FILE_EXISTS=0; \
+      echo "nothing to deploy to github"; }
+
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: P5R2MJWoSgr8Ej8iMXNwhU4GVKGbwA6J3X9LnacPMsvHwLJCj4SIYPPeuNn5ASXJGzN6zX56y7NoCR3XI5s1LJeUJPRl74YKtq4Ckok+RjOEtWzz3G/EgzHuEJlHuBUDlRNTpi49S96PGZUdHmIpkKSzA4NFtcCB+AQYn0cFM+L0gm0hbygfIQQU+g8P9Mj877mW9NUq3sWaVqKRpuR0NNB21QHMDH2BPQKUkqRePKPi+VCNqAccuEm7NduNJ3NgKqkJ4s/NUgsliBHqo75uOJT7BzUGkT/gZsU+Th+M7t5jyBNJIv0obHpsu4MldBcb5iPNm1NBOzp5rBBAS/dalfYdHEVoe7pndkom+Tem4Lj6V16rbchba9no/Qt9b+SI/bdZsGquDy/FVYfgcx/1sgfWFLLvwD//k1jT3eAwtfF4OAlyaHXuYrnLOmfI0e0nGurJ4B9yjHuLnWr/COneQFYn11qvGZRNT006tyImEc+7oS8kLpyurTm6Y3KqEu1oN8PTwITaGUyypp0OoNMre2IdvbRarTN5pxsPD2kWs1Hl3i1pOyRj7kt6I8gjd4w6iTdVfXnbKwZu9l0wC9HkuVsDX/Ex9Gorz9qDNdUHeBPxyh1qG7wsxZz0TtVQlpM4vZoBfjv1b+puWDiHVytnDVwVEIYKkndSvKwiaTfUlBQ=
+  file: "${RELEASE_PKG_FILE}"
+  on:
+    repo: bvberkum/x-ci
+    tags: true
+    condition: $FILE_EXISTS = 1

@@ -1,0 +1,3 @@
+App-Id: x-ci
+Main-File: README.md
+Other-Files: main.go
