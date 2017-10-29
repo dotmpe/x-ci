@@ -32,7 +32,7 @@ after_success:
         ;;
     esac
   - case "$TRAVIS_TAG" in
-      v[0-9]* )
+      [0-9]* )
           tag="$(echo $TRAVIS_TAG | cut -c2-)";
           docker tag $APP_ID:local $DOCKER_USERNAME/$APP_ID:$tag;
           docker push $DOCKER_USERNAME/$APP_ID:$tag

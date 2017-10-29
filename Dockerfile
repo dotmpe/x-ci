@@ -1,3 +1,3 @@
 FROM scratch
-COPY x-ci /
+COPY x-ci /hello
 ENTRYPOINT ["/hello"]
