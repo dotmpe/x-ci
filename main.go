@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-var version = "0.0.2-dev" // x-ci
+var version = "0.0.3-dev" // x-ci
 
 func main() {
   fmt.Println("Hello world, this is a x-ci/main.go", version, "process", os.Getpid())

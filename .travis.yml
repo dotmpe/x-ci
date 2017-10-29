@@ -10,11 +10,11 @@ env:
     - APP_ID=x-ci
 
 script:
-  - docker run --rm \
-    -e CGO_ENABLED=true \
-    -e COMPRESS_BINARY=true \
-    -v "$(pwd -P):/src" \
-    -v /var/run/docker.sock:/var/run/docker.sock \
+  - docker run --rm
+    -e CGO_ENABLED=true
+    -e COMPRESS_BINARY=true
+    -v "$(pwd -P):/src"
+    -v /var/run/docker.sock:/var/run/docker.sock
     centurylink/golang-builder $APP_ID:local
 
 after_success:
@@ -41,9 +41,9 @@ after_success:
 
 before_deploy:
   - export RELEASE_PKG_FILE=$APP_ID
-  - test -e "$RELEASE_PKG_FILE" && { export FILE_EXISTS=1; \
-      echo "deploying $RELEASE_PKG_FILE to GitHub releases"; \
-    } || { export FILE_EXISTS=0; \
+  - test -e "$RELEASE_PKG_FILE" && { export FILE_EXISTS=1;
+      echo "deploying $RELEASE_PKG_FILE to GitHub releases";
+    } || { export FILE_EXISTS=0;
       echo "nothing to deploy to github"; }
 
 deploy:
