@@ -8,7 +8,7 @@ Version: 0.1.3
 
 Builds a hello world docker in 480 KB at Travis.
 
-![Fig 1. illustration of main project flow.](asset/README-fig1.svg | width=100)
+![Fig 1. illustration of main project flow.](asset/README-fig1.svg|width=100)
 
 Test:
 ```
