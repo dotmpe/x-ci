@@ -11,7 +11,7 @@ env:
     - APP_ID=x-ci
     - BUILD_GOARCH="386 amd64 arm" 
     - BUILD_GOOS="linux" 
-#    - FILE_EXISTS=
+    - DO_GITHUB_DEPLOY=1
 
 script:
   - docker run --rm
@@ -23,6 +23,7 @@ script:
     -v /var/run/docker.sock:/var/run/docker.sock
     centurylink/golang-builder-cross $APP_ID:local
 
+# Docker hub upload
 after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
   - echo '---------' && env && echo '--------------'
@@ -44,6 +45,7 @@ after_success:
         ;;
     esac
 
+# GitHub release upload
 #before_deploy:
 #  - export RELEASE_PKG_FILE=$(echo $APP_ID* | awk '{print $1}')
 #  - test -e "$RELEASE_PKG_FILE" && export FILE_EXISTS=1 || export FILE_EXISTS=0
@@ -63,4 +65,4 @@ deploy:
     # NOTE: makes drafts but seems to err? branch: dev
     tags: true # Create releases from version tags always seems to work
     # FIXME conditional publish, try to prevent error
-    #condition: $FILE_EXISTS -eq 1
+    condition: $DO_GITHUB_DEPLOY = 1

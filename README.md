@@ -10,9 +10,9 @@ Version: 0.1.3-dev
 - [Week 43 '17](doc/17-43.md)
 - See also [x-drone](//github.com/bvberkum/x-drone)
 
+Builds a hello world docker in 480 KB at Travis.
+
 Test:
 ```
 docker run --rm bvberkum/x-ci:dev
 ```
-
-Size: only 480 KB.
