@@ -8,7 +8,7 @@ Version: 0.1.3
 
 Builds a hello world docker in 480 KB at Travis.
 
-<img src="asset/README-fig1.svg" alt="Fig 1. illustration of main project flow. " width="100%" >
+<img src="asset/README-fig1.svg" alt="Fig 1. illustration of main project flow. " width="60%" >
 
 Test:
 ```
