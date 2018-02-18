@@ -1,0 +1,28 @@
+- type: application/vnd.org.wtwta.project
+  main: x-ci
+  id: x-ci
+  version: 0.1.3-dev # x-ci
+  license: GPL-3.0
+  urls:
+    base:
+      - http://github.com/bvberkum/x-ci
+    license:
+      - https://www.gnu.org/licenses/gpl-3.0.txt
+      - https://choosealicense.com/licenses/gpl-3.0/
+      - https://opensource.org/licenses/gpl-license
+    source-code:
+      - http://github.com/bvberkum/x-ci.git
+    images:
+      - https://hub.docker.com/r/bvberkum/x-ci
+    builds:
+      - https://travis-ci.org/bvberkum/x-ci
+  repositories:
+    github: git@github.com:bvberkum/x-ci.git
+  scripts:
+    init:
+      - htd package update
+      - vc regenerate
+    check:
+      - verbosity=1 git-versioning check
+    docs:
+      - ./generate-figures.sh

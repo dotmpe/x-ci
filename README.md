@@ -12,6 +12,8 @@ Version: 0.1.3-dev
 
 Builds a hello world docker in 480 KB at Travis.
 
+![Fig 1. illustration of main project flow.](asset/README-fig1.svg)
+
 Test:
 ```
 docker run --rm bvberkum/x-ci:dev
