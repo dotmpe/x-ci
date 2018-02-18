@@ -25,4 +25,4 @@
     check:
       - verbosity=1 git-versioning check
     docs:
-      - ./generate-figures.sh
+      - make doc
