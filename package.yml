@@ -21,6 +21,7 @@
   scripts:
     init:
       - htd package update
+      - htd package remotes-init
       - vc regenerate
     check:
       - verbosity=1 git-versioning check
