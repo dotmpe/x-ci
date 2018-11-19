@@ -1,0 +1,1 @@
+[2018-11-19] see about generating project, e.g  ``. package.sh && make -f template.mk``  <template.mk>
