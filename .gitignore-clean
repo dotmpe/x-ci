@@ -1,5 +1,2 @@
-x-ci*
-.*sw[pon]
-*~
 .versioned-files.list
 README.html

@@ -1,8 +1,7 @@
 services:
   - docker
 
-os:
-  - linux
+os: linux
   #- osx # [2018-12-07] No services on OSX (docker)
   #- windows # [2018-12-07] Fix image, paths for Windows
 #dist:
@@ -17,7 +16,8 @@ env:
     - DO_GITHUB_DEPLOY=1
 
 script:
-  - uname -s
+  - uname -s && echo Term $TERM && echo Shell $SHELL
+  - cat /etc/os-release
   - case "$(uname -s)" in
       Linux|Darwin ) DOCKER_IMAGE=centurylink/golang-builder-cross ;;
       MSYS_NT-10.0) DOCKER_IMAGE=FIXME # golang:windowsservercore-1803
