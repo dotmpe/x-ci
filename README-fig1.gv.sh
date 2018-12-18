@@ -1,6 +1,7 @@
 digraph {
   rankdir="LR" ;
   node [ shape=Mrecord ] ;
+  stylesheet="style.svg.css" ;
 
   GIT [ label="GIT SCM", URL="$package_urls_source_code__0" ] ;
   Travis [ label="Travis CI", URL="$package_urls_builds__0" ] ;
