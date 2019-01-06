@@ -1,0 +1,5 @@
+# varspec                                              cmdspec                #
+
+true                                                   . ./tools/sh/util.sh
+true                                                   . ./tools/ci/util.sh
+# vim:ft=bash:

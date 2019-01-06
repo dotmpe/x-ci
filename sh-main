@@ -16,15 +16,26 @@ run-cmd()
     print_red "Not OK: $?" "Command $SCRIPT_SHELL -c '$*'"
 }
 
+spec()
+{
+  test $# -gt 0 || set -- sh-baseline.tab "*/bin/u-s *"
 
-set -e
-set -o nounset
-set -o pipefail
-set -o errexit
+  . "$U_S/tools/ci/parts/std-stack.sh"
+  . "$U_S/tools/ci/parts/std-runner.sh"
+
+  sh_spec "$1" | grep -v '^\s*\(#.*\|\s*\)$' | while read scriptline
+  do
+    fnmatch "$2" "$scriptline" || continue
+    run-cmd "$scriptline" </dev/tty
+  done
+}
+
+
+set -euo pipefail
 
 . "${script_util:="$PWD/tools/sh"}/env.sh"
 
-test $# -gt 0 || set -- tooling-baseline
+test $# -gt 0 || set -- spec sh-baseline.tab '*'
 
 print_yellow "" "Starting '$*'"
 test -e "$1" && {

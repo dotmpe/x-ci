@@ -12,7 +12,7 @@ u=${dckr_user}
 c=u-s-dckr
 
 docker exec -u $u -ti ${c} \
-  sh -c "test -e '$x' || { mkdir $(dirname $w) && git clone http://github.com/$repo_slug $w; } "
+  sh -c "test -e '$w' || { mkdir -p $(dirname $w) && git clone http://github.com/$repo_slug $w; } "
 
 : "${repo_id:="24-2-bare"}"
 : "${repo_url:="/srv/scm-git-24-2-notus-brix/bvberkum/x-ci.git"}"
@@ -24,5 +24,7 @@ test "$repo_id" = "origin" || {
 }
 
 docker exec -w $w -u $u -ti ${c} git reset --hard ${repo_id}/${repo_rev}
+
+docker exec -w $w -u $u -ti ${c} bash -c '. ./sh-ci'
 
 # Id: u-s/0.0 sh-treebox-ci

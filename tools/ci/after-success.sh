@@ -1,4 +1,7 @@
-#!/bin/sh
+#!/usr/bin/env bash
+# See .travis.yml
+
+set -u
 export_stage success && announce_stage
 
 docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
@@ -22,3 +25,4 @@ case "$TRAVIS_TAG" in
 esac
 
 close_stage
+set +u

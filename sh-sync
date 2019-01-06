@@ -28,7 +28,7 @@ diff_files() # FILEPATH PATHNAME...
 
 set -e
 
-for x in .travis.yml sh-* tools/ci/*.sh
+for x in .travis.yml sh-* tools/ci/*.sh tools/sh/parts/*.sh
 do
   vimdiff ~/bin/$x ~/project/user-scripts*/$x $x
   continue

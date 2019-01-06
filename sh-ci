@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-set -o nounset
-set -o pipefail
-set -o errexit
+set -euo pipefail
 
 scriptname=sh-treebox-ci
 unset LOG INIT_LOG CWD U_S
@@ -16,7 +14,7 @@ unset LOG INIT_LOG CWD U_S
 : "${LOG:="$script_util/log.sh"}"
 : "${INIT_LOG:="$LOG"}"
 
-#. "$ci_util/before-install.sh"
+. "$ci_util/before-install.sh"
 #. "$ci_util/install.sh"
 
 . "$ci_util/before.sh"
