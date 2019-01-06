@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+# Shell script wrapper for $PWD/sh-* scripts and other project/CI tooling
+
+
+run()
+{
+  "$@"
+}
+
+run-cmd()
+{
+  print_yellow "" "Running $SCRIPT_SHELL -c '$*'..."
+  $SCRIPT_SHELL -c "$@" &&
+    print_green "OK" "Command $SCRIPT_SHELL -c '$*'" ||
+    print_red "Not OK: $?" "Command $SCRIPT_SHELL -c '$*'"
+}
+
+
+set -e
+set -o nounset
+set -o pipefail
+set -o errexit
+
+. "${script_util:="$PWD/tools/sh"}/env.sh"
+
+test $# -gt 0 || set -- tooling-baseline
+
+print_yellow "" "Starting '$*'"
+test -e "$1" && {
+
+  $SCRIPT_SHELL \
+    "$@" && print_green "" "Completed '$*'" || print_red "" "Failed '$*'"
+
+} || {
+
+  "$@" && print_green "" "Completed '$*'" || print_red "" "Failed '$*'"
+}
+
+# vim:ft=bash:

@@ -1,13 +1,23 @@
-services:
-  - docker
-
 os: linux
   #- osx # [2018-12-07] No services on OSX (docker)
   #- windows # [2018-12-07] Fix image, paths for Windows
+
+dist: []
+
+addons:
+  apt:
+    packages: []
+
+sudo: false
+
+services:
+  - docker
+
 #dist:
 language: go
 
 env:
+  matrix: []
   global:
     - NS_NAME=bvberkum
     - APP_ID=x-ci
@@ -15,44 +25,23 @@ env:
     - BUILD_GOOS="linux" 
     - DO_GITHUB_DEPLOY=1
 
+before_script:
+  - . ./tools/ci/before.sh
+
 script:
-  - uname -s && echo Term $TERM && echo Shell $SHELL
-  - cat /etc/os-release
-  - case "$(uname -s)" in
-      Linux|Darwin ) DOCKER_IMAGE=centurylink/golang-builder-cross ;;
-      MSYS_NT-10.0) DOCKER_IMAGE=FIXME # golang:windowsservercore-1803
-      ;;
-    esac
-  - docker run --rm
-    -e CGO_ENABLED=true
-    -e COMPRESS_BINARY=true
-    -e BUILD_GOOS="$BUILD_GOOS"
-    -e BUILD_GOARCH="$BUILD_GOARCH"
-    -v "$(pwd -P):/src"
-    -v /var/run/docker.sock:/var/run/docker.sock
-    $DOCKER_IMAGE $APP_ID:local
+  - . ./tools/ci/script.sh
 
 # Docker hub upload
 after_success:
-  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-  - echo '---------' && env && echo '--------------'
-  - echo "Pushing $APP_ID:$TRAVIS_BRANCH or $APP_ID:$TRAVIS_TAG"
-  - case "$TRAVIS_BRANCH" in
-      dev )
-          docker tag $APP_ID:local $DOCKER_USERNAME/$APP_ID:dev;
-          docker push $DOCKER_USERNAME/$APP_ID:dev
-        ;;
-      master )
-          docker tag $APP_ID:local $DOCKER_USERNAME/$APP_ID:latest;
-          docker push $DOCKER_USERNAME/$APP_ID:latest
-        ;;
-    esac
-  - case "$TRAVIS_TAG" in
-      [0-9]* )
-          docker tag $APP_ID:local $DOCKER_USERNAME/$APP_ID:$TRAVIS_TAG;
-          docker push $DOCKER_USERNAME/$APP_ID:$TRAVIS_TAG
-        ;;
-    esac
+  - . ./tools/ci/after-success.sh
+
+#matrix:
+#  include: []
+#  exclude: []
+
+branches:
+  only: []
+  except: []
 
 # GitHub release upload
 #before_deploy:
