@@ -1,36 +1,25 @@
 #!/usr/bin/env bash
-# See .travis.yml
+# CI suite stage 1. See .travis.yml
 
-: "${DEBUG:=""}"
 : "${CWD:="$PWD"}"
+: "${U_S:="$CWD"}"
 
-set -euo pipefail
+echo "Sourcing env (I)" >&2
+: "${ci_tools:="$CWD/tools/ci"}"
+. "${ci_tools}/env.sh"
 
-export scriptname=x-ci
-
-ci_cleanup()
-{
-  echo '------ Exited' >&2
-  sleep 2
-  sync
-}
+ci_stages="$ci_stages ci_env_1 sh_env_1"
+ci_env_1_ts=$ci_env_ts sh_env_1_ts=$sh_env_ts sh_env_1_end_ts=$sh_env_end_ts
 
 trap ci_cleanup EXIT
 
-: "${script_util:="$CWD/tools/sh"}"
-: "${ci_util:="$CWD/tools/ci"}"
-
-# Get checkouts, tool installs and rebuild env (PATH etc.)
-$script_util/parts/init.sh init-deps dependencies.txt
-
-echo "Sourcing env (I)... <${BASH_ENV:-} $CWD $PWD>" >&2
-. "${script_util:="$CWD/tools/sh"}/env.sh"
-. "${ci_util:="$CWD/tools/ci"}/util.sh"
-
+# Set timestamps for each stage start/end XXX: and stack
 export_stage before-install before_install && announce_stage
 
-# End with some settings and listings for current env.
-. "$ci_util/parts/init-information.sh"
+$LOG note "" "Running steps" "$(suite_from_table "build.txt" Parts CI 1 | tr '\n' ' ')"
+suite_source "build.txt" CI 1
+test $SKIP_CI -eq 0 || exit 0
 
-close_stage
+stage_id=before_install close_stage
 set +u
+# Sync: U-S:

@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# See .travis.yml
-
+# CI suite stage 4. See .travis.yml
 set -u
 export_stage script && announce_stage
 
@@ -25,3 +24,4 @@ $DOCKER_IMAGE $APP_ID:local
 
 close_stage && ci_announce "Done"
 set +u
+# Sync: U-S:

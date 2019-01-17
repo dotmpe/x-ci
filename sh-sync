@@ -1,35 +1,16 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # Keep build tooling copies in sync
+# (x-ci/sh-sync, depends on BIN:sh-sync, depends on compsure user-includes).
 
-remove_dupes() # ~
-{
-  awk '!a[$0]++'
-}
-
-unique_files() # PATHNAME...
-{
-  for path in "$@"
-  do
-    test -e "$path" && realpath "$path" || echo "$path"
-  done | remove_dupes
-}
-
-diff_files() # FILEPATH PATHNAME...
-{
-  local from="$1"
-  shift
-  for path in "$@"
-  do
-    test -f "$path" || path="$path/$1"
-    diff -bqr "$1" "$path" && continue
-  done
-}
-
-set -e
-
-for x in .travis.yml sh-* tools/ci/*.sh tools/sh/parts/*.sh
+for x in .travis.yml sh-* \
+  tools/ci/*.sh tools/ci/parts/*.sh \
+  tools/sh/*.sh \
+  tools/sh/parts/*.sh
 do
-  vimdiff ~/bin/$x ~/project/user-scripts*/$x $x
-  continue
+	files-sync ~/bin/$x ~/project/user-scripts*/$x $x && c-passed || c-failed
 done
+
+# Id: xi-ci/ sh-sync
+# From: BIN:
+# To: HT:

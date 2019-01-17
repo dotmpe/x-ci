@@ -4,6 +4,12 @@
 
 test -z "${ci_env_:-}" && ci_env_=1 || exit 98 # Recursion
 
+test -x "$(which gdate)" && export gdate=gdate || export gdate=date
+
+ci_env_ts=$($gdate +"%s.%N")
+: "${ci_stages:=""}"
+ci_stages="$ci_stages ci_env"
+
 : "${CWD:="$PWD"}"
 
 : "${script_util:="$CWD/tools/sh"}"
@@ -64,3 +70,14 @@ main_() # [Base] [Cmd-Args...]
 }
 
 print_yellow "ci:env" "Loaded"
+
+
+sh_env_ts=$($gdate +"%s.%N")
+ci_stages="$ci_stages sh_env"
+
+. "${script_util}/env.sh"
+
+sh_env_end_ts=$($gdate +"%s.%N")
+
+ci_env_end_ts=$($gdate +"%s.%N")
+# From: script-mpe/0.0.4-dev tools/ci/env.sh

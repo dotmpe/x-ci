@@ -72,6 +72,7 @@ init-deps()
         $LOG "error" "$?" "Error resetting to $version" "$supportlib"
       }
     }
+    $LOG "note" "" "Checked $intaller $supportlib..." "$version"
   done
 }
 
@@ -100,6 +101,19 @@ default()
 
 # Main
 
-type req_subcmd >/dev/null 2>&1 || . "${ci_util:="tools/ci"}/env.sh"
-# Fallback func-name to init namespace to avoid overlap with builtin names
-main_ "init" "$@"
+case "$(basename -- "$0" .sh)" in
+  -* ) ;; # No main regardless
+
+  init )
+      test "$(basename "$(dirname "$0")")/$(basename "$0")" = parts/init.sh ||
+          exit 105 # Sanity
+
+      #. "${sh_tools:="$PWD/tools/sh"}/env.sh"
+      : "${CWD:="$PWD"}"
+      . "$CWD/tools/sh/parts/env-0-1-lib-sys.sh"
+      . "${ci_tools:="$CWD/tools/ci"}/env.sh"
+      "$@"
+    ;;
+esac
+
+# Sync: U-S:

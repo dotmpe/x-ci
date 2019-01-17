@@ -1,87 +1,62 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 ci_announce 'Initializing for build-cache'
 
-: "${dckr_pref:="sudo"}"
-
-test -n "${DOCKER_HUB_PASSWD:-}" || {
-  $LOG "error" "" "Docker Hub password required"
-  return
-}
+ci_announce "Logging into docker hub $DOCKER_USERNAME"
+# NOTE: use stdin to prevent user re-prompt; but cancel build on failure
 echo "$DOCKER_HUB_PASSWD" | \
-  ${dckr_pref} docker login --username $DOCKER_USERNAME --password-stdin
+  ${dckr_pref}docker login --username $DOCKER_USERNAME --password-stdin
 
 mkdir -p ~/.statusdir/{logs,tree,index}
 
+: "${TRAVIS_REPO_SLUG:="$NS_NAME/user-scripts"}"
 PROJ_LBL=$(basename "$TRAVIS_REPO_SLUG")
 builds_log="$HOME/.statusdir/logs/travis-$PROJ_LBL.list"
 ledge_tag="$(printf %s "$PROJ_LBL-$TRAVIS_BRANCH" | tr -c 'A-Za-z0-9_-' '-')"
 
-${dckr_pref} docker pull bvberkum/ledge:$ledge_tag && {
+${dckr_pref}docker pull bvberkum/ledge:$ledge_tag && {
 
-  ${dckr_pref} docker create --name ledge \
+  ${dckr_pref}docker create --name ledge \
     -v ledge-statusdir:/statusdir \
     bvberkum/ledge:$ledge_tag
 
-  ${dckr_pref} docker volume ls
-
-  ${dckr_pref} docker run --rm \
-    -v ledge-statusdir \
-    busybox \
-    ls -la /statusdir/logs || true
-
-  ${dckr_pref} docker run --rm \
-    --volumes-from ledge-statusdir \
-    busybox \
-    ls -la /statusdir/logs || true
-
+  test ! -e /tmp/builds.log || rm /tmp/builds.log
+  test ! -e "$builds_log" || cp $builds_log /tmp/builds.log
   {
-    test ! -e "$builds_log" || {
-      cp $builds_log /tmp/builds.log
-      cat /tmp/builds.log
-    }
+    test ! -e /tmp/builds.log || cat /tmp/builds.log
 
-    ${dckr_pref} docker run --rm \
-      -v ledge-statusdir:/statusdir \
+    ${dckr_pref}docker run -t --rm \
+      --volumes-from ledge \
       busybox \
-      cat /statusdir/logs/travis-$PROJ_LBL.list
-  } | sort -u >$builds_log
+      sed 's/[\n\r]//g' /statusdir/logs/travis-$PROJ_LBL.list
 
-  ${dckr_pref} docker delete ledge
+  } | $gsed 's/[\n\r]//g' | sort -u >$builds_log
 
+  ${dckr_pref}docker rm -f ledge ; printf ' %s\n' "container removed"
+  ${dckr_pref}docker volume rm ledge-statusdir ; printf ' %s\n' "volume removed"
+
+  ci_announce 'Retrieved logs'
 } || true
 
-echo '------------ Last log'
-wc -l "$builds_log" || true
+ci_announce 'Last log was'
 tail -n 1 "$builds_log" || true
-echo $TRAVIS_TIMER_START_TIME \
+wc -l "$builds_log" || true
+
+printf '%s %s %s %s %s\n' $TRAVIS_TIMER_START_TIME \
 	$TRAVIS_JOB_ID \
 	$TRAVIS_JOB_NUMBER \
 	$TRAVIS_BRANCH \
 	$TRAVIS_COMMIT_RANGE >>"$builds_log"
-echo '------------ New log'
+ci_announce 'New log'
 tail -n 1 "$builds_log"
-echo '------------'
+wc -l "$builds_log" || true
 
-##  docker run -it --rm \
-##	-v some_volume:/volume -v /tmp:/backup alpine \
-##    tar -cjf /backup/some_archive.tar.bz2 -C /volume ./
-#
-##  docker create --name ledge bvberkum/ledge
-#
-##  docker run \
-##  --volume ledge:/statusdir \
-##  --volume $HOME/.statusdir:$HOME/.statusdir \
-##  -ti --rm instrumentisto/rsync-ssh rsync -avzui "/statusdir/" "$HOME/statusdir"
-#
-#  true
-#
-#} || {
-#
-#  #docker create --name ledge bvberkum/ledge:build
-#}
-
+${dckr_pref}docker rmi -f bvberkum/ledge:$ledge_tag
 
 cp test/docker/ledge/Dockerfile ~/.statusdir
-${dckr_pref} docker build -qt bvberkum/ledge:$ledge_tag ~/.statusdir
-${dckr_pref} docker push bvberkum/ledge:$ledge_tag
+
+${dckr_pref}docker build -qt bvberkum/ledge:$ledge_tag ~/.statusdir &&
+  ${dckr_pref}docker push bvberkum/ledge:$ledge_tag
+
+# Sync: BIN:

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 test -z "${sh_util_:-}" && sh_util_=1 || return 98 # Recursion
 
+info() { exit 123; }
 
 # Print log-like to stderr
 print_err()
@@ -29,3 +30,10 @@ print_err()
 }
 
 fnmatch() { case "$2" in $1 ) return ;; * ) return 1 ;; esac; }
+
+assert_nonzero()
+{
+  test $# -gt 0 && test -n "$1"
+}
+
+# Sync: U-S:

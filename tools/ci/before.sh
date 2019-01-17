@@ -2,9 +2,10 @@
 # See .travis.yml
 
 set -u
-export_stage before-script before_script && announce_stage
+export_stage before-script before && announce_stage
 
-. "./tools/ci/parts/init-build-cache.sh"
+suite_source "build.txt" CI 3
 
-close_stage
+stage_id=before close_stage
 set +u
+# Sync: U-S:

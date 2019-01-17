@@ -6,15 +6,16 @@ dist: []
 
 addons:
   apt:
-    packages: []
+    packages:
+    - realpath
 
 sudo: false
 
 services:
-  - docker
+- docker
 
 #dist:
-language: shell
+#language: shell
 
 env:
   matrix: []
@@ -79,3 +80,6 @@ deploy:
     tags: true # Create releases from version tags always seems to work
     # FIXME conditional publish, try to prevent error
     condition: $DO_GITHUB_DEPLOY = 1
+
+# Sync: BIN:
+# Id: x-ci/ .travis.yml
