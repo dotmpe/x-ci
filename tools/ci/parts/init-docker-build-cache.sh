@@ -47,7 +47,8 @@ printf '%s %s %s %s %s\n' $TRAVIS_TIMER_START_TIME \
 	$TRAVIS_JOB_ID \
 	$TRAVIS_JOB_NUMBER \
 	$TRAVIS_BRANCH \
-	$TRAVIS_COMMIT_RANGE >>"$builds_log"
+	$TRAVIS_COMMIT_RANGE \
+	$TRAVIS_BUILD_ID >>"$builds_log"
 ci_announce 'New log'
 tail -n 1 "$builds_log"
 wc -l "$builds_log" || true

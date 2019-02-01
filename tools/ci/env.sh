@@ -12,12 +12,12 @@ ci_stages="$ci_stages ci_env"
 
 : "${CWD:="$PWD"}"
 
-: "${script_util:="$CWD/tools/sh"}"
+: "${sh_tools:="$CWD/tools/sh"}"
 
-. "${script_util}/env.sh"
+. "${sh_tools}/env.sh"
 print_yellow "sh:env" "Loaded"
 
-. "${ci_util:="$CWD/tools/ci"}/util.sh"
+. "${ci_tools:="$CWD/tools/ci"}/util.sh"
 print_yellow "ci:util" "Loaded"
 
 
@@ -75,7 +75,7 @@ print_yellow "ci:env" "Loaded"
 sh_env_ts=$($gdate +"%s.%N")
 ci_stages="$ci_stages sh_env"
 
-. "${script_util}/env.sh"
+. "${sh_tools}/env.sh"
 
 sh_env_end_ts=$($gdate +"%s.%N")
 

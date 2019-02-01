@@ -7,28 +7,28 @@ unset LOG INIT_LOG CWD U_S
 
 : "${CWD:="$PWD"}"
 
-: "${ci_util:="$CWD/tools/ci"}"
+: "${ci_tools:="$CWD/tools/ci"}"
 
 : "${U_S:="$HOME/.basher/cellar/packages/bvberkum/user-scripts"}"
-: "${script_util:="$U_S/tools/sh"}"
-: "${LOG:="$script_util/log.sh"}"
+: "${sh_tools:="$U_S/tools/sh"}"
+: "${LOG:="$sh_tools/log.sh"}"
 : "${INIT_LOG:="$LOG"}"
 
-. "$ci_util/before-install.sh"
-#. "$ci_util/install.sh"
+. "$ci_tools/before-install.sh"
+#. "$ci_tools/install.sh"
 
-. "$ci_util/before.sh"
-. "$ci_util/script.sh"
+. "$ci_tools/before.sh"
+. "$ci_tools/script.sh"
 
-#. "$ci_util/before-cache.sh"
-#. "$ci_util/cache.sh"
+#. "$ci_tools/before-cache.sh"
+#. "$ci_tools/cache.sh"
 
 #test $SCRIPT_RESULT -eq 0 && {
-#  . "$ci_util/after-success.sh"
+#  . "$ci_tools/after-success.sh"
 #} || {
-#  . "$ci_util/after-failure.sh"
+#  . "$ci_tools/after-failure.sh"
 #}
-#. "$ci_util/after.sh"
+#. "$ci_tools/after.sh"
 
 ci_announce "$scriptname OK"
 # Id: u-s/0.0 sh-ci

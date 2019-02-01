@@ -13,14 +13,15 @@ case "$uname" in
     * ) print_red "No image for $uname"; exit 1
   ;;
 esac
+
 docker run --rm \
--e CGO_ENABLED=true \
--e COMPRESS_BINARY=true \
--e BUILD_GOOS="$BUILD_GOOS" \
--e BUILD_GOARCH="$BUILD_GOARCH" \
--v "$(pwd -P):/src" \
--v /var/run/docker.sock:/var/run/docker.sock \
-$DOCKER_IMAGE $APP_ID:local
+  -e CGO_ENABLED=true \
+  -e COMPRESS_BINARY=true \
+  -e BUILD_GOOS="$BUILD_GOOS" \
+  -e BUILD_GOARCH="$BUILD_GOARCH" \
+  -v "$(pwd -P):/src" \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  $DOCKER_IMAGE $APP_ID:local
 
 close_stage && ci_announce "Done"
 set +u

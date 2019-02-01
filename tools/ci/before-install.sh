@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # CI suite stage 1. See .travis.yml
+set -ueo pipefail
 
+: "${SUITE:="CI"}"
 : "${CWD:="$PWD"}"
-: "${U_S:="$CWD"}"
 
 echo "Sourcing env (I)" >&2
 : "${ci_tools:="$CWD/tools/ci"}"
@@ -16,10 +17,10 @@ trap ci_cleanup EXIT
 # Set timestamps for each stage start/end XXX: and stack
 export_stage before-install before_install && announce_stage
 
-$LOG note "" "Running steps" "$(suite_from_table "build.txt" Parts CI 1 | tr '\n' ' ')"
-suite_source "build.txt" CI 1
+$LOG note "" "Sourcing init parts" "$(suite_from_table "build.txt" Parts $SUITE 1 | tr '\n' ' ')"
+suite_source "build.txt" $SUITE 1
 test $SKIP_CI -eq 0 || exit 0
 
 stage_id=before_install close_stage
-set +u
+set +euo pipefail
 # Sync: U-S:

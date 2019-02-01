@@ -1,3 +1,4 @@
+# Id: X-Ci  vim:ft=todo:nowrap:cc=2,8,19,30:
 [2018-11-19] see about generating project, e.g  ``. package.sh && make -f template.mk``  <template.mk> @Dev @Sh
 [2018-11-23] Bring the `travis.yml` boilerplate down, setup `build` lib @Dev @CI +script_mpe +U_s
 [2018-12-18] How to use `SHELL`: @Ops

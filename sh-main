@@ -33,7 +33,7 @@ spec()
 
 set -euo pipefail
 
-. "${script_util:="$PWD/tools/sh"}/env.sh"
+. "${sh_tools:="$PWD/tools/sh"}/env.sh"
 
 test $# -gt 0 || set -- spec sh-baseline.tab '*'
 

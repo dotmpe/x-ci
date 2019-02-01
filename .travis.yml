@@ -14,8 +14,7 @@ sudo: false
 services:
 - docker
 
-#dist:
-#language: shell
+language: go
 
 env:
   matrix: []
@@ -30,6 +29,9 @@ env:
 
 before_install:
   - . ./tools/ci/before-install.sh
+
+install:
+  - . ./tools/ci/install.sh
 
 before_script:
   - . ./tools/ci/before.sh
@@ -47,7 +49,6 @@ cache:
      - $HOME/.basher
      - $HOME/.statusdir/
 
-# Docker hub upload
 after_success:
   - . ./tools/ci/after-success.sh
 
@@ -81,5 +82,4 @@ deploy:
     # FIXME conditional publish, try to prevent error
     condition: $DO_GITHUB_DEPLOY = 1
 
-# Sync: BIN:
-# Id: x-ci/ .travis.yml
+# Sync: U-S:
