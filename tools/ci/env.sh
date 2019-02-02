@@ -56,7 +56,7 @@ req_usage_fail()
 main_() # [Base] [Cmd-Args...]
 {
   local main_ret= base="$1" ; shift 1
-  test -n "$base" || base="$(basename "$0" .sh)"
+  test -n "$base" || base="$(basename -- "$0" .sh)"
 
   test $# -gt 0 || set -- default
   req_usage_fail || return
@@ -80,4 +80,4 @@ ci_stages="$ci_stages sh_env"
 sh_env_end_ts=$($gdate +"%s.%N")
 
 ci_env_end_ts=$($gdate +"%s.%N")
-# From: script-mpe/0.0.4-dev tools/ci/env.sh
+# Copy: script-mpe/0.0.4-dev tools/ci/env.sh

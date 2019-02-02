@@ -60,4 +60,4 @@ cp test/docker/ledge/Dockerfile ~/.statusdir
 ${dckr_pref}docker build -qt bvberkum/ledge:$ledge_tag ~/.statusdir &&
   ${dckr_pref}docker push bvberkum/ledge:$ledge_tag
 
-# Sync: BIN:
+# Copy: BIN:

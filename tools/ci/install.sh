@@ -16,4 +16,4 @@ $INIT_LOG "info" "" "Stages:" "$ci_stages"
 
 stage_id=install close_stage
 set +eu
-# Sync: U-S:
+# Copy: U-S:

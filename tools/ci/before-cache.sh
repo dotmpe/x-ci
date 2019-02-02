@@ -7,4 +7,4 @@ sh_include before-cache
 
 close_stage
 set +u
-# Sync: U-S:
+# Copy: U-S:

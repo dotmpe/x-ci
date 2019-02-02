@@ -1,0 +1,3 @@
+[submodule "vnd/bvberkum/user-scripts"]
+	path = vnd/bvberkum/user-scripts
+	url = https://github.com/bvberkum/user-scripts

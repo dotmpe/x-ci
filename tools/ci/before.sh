@@ -7,4 +7,4 @@ suite_run "${build_tab}" $SUITE 3
 
 stage_id=before close_stage
 set +u
-# Sync: U-S:
+# Copy: U-S:

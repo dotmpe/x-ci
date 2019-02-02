@@ -7,14 +7,15 @@ dist: []
 addons:
   apt:
     packages:
-    - realpath
+      - realpath
 
 sudo: false
 
 services:
-- docker
+  - docker
 
-language: go
+language: shell
+#language: go
 
 env:
   matrix: []
@@ -26,6 +27,7 @@ env:
     - DO_GITHUB_DEPLOY=1
     - DOCKER_USERNAME=$NS_NAME
     - secure: "qT1SeCagJrYJ7mIo3dvtjAZtZLcHVqpJMh6M7hbo+5vKDPE+TZqFjKhiwt/9cw37vG2wgBnYHY2wl2Uenw1LzWkHaKsjtRQ2xqiGc7iXffaaKUOkf75YA0cvppfVXIRwb/ZkIbA0ZOWCeEM9qvCA2rsmGmud1ksxbP0kotkwHpjwsxexaq6JoKRe1EuEBDR4hCkfUN5fFDnzkFyscWtSpgnO1/Z0/pn2zY85Q1M+I4n1X9w5PoXiJ+cQZGenQqhNVoEio4NKKiUCbQDjYaMY186fPnJhR0LraK6V7rdG+btTXyiZ2TWnx9Je8AZO/6Bfc16pySCdS6inkxqZtQjtdttTiGHkHi4n7YuS7GfQNetqbUu9nyRjFiDyGFLbSJy9HussTjIh6QXN+OnDxbW9WNcLmLWOoB4+TxF70TqYkQzsHwyB8KSGaQO9m/0/DmXkSnj+ezvLeXbKHFunQUKbzlgQdul7P1iIrVDbh82CbWhJjjXf1G6vGp3SAA43ye9bt8SVPpl5efX65t1XjfhE6NYgjTi66az07BDE/jBz61wvfPvmt8OWX/FwVqZQEg3le6fKXy8AxyCzu6+p4sXpnrKnlvf5IK02ZspCpx5boHvk0KderJRmyzoqWb9k0HKAaBYRB6fQe5JuAU6eP5btJG+rkBV7n4bnrY1yhEDVI+o="
+    - secure: "doTHGAFPV2Siss5rtBXsZLP4Rbe6qSRJPbFL8pSCGPC44J5ORVkjmlIzY1MPKUjVsKlXXWnHebuNj2jHkFXdRSGPpTELUk3tsnGAA0AInuwWiIIjZJ8iHUfsI0czyX1cuLOfJG7Ql56TyGcEnlUaNdsiX3gG3kKr48FcqQSpmpbEVK1VZsUKNY7co+2utayMsOh1AcDr2uTOxeXimP1yydff5N0wh24F1b/+vAOrkeocowynx+cdsluKX0V0GvnSdzn5YzZSUMjpi/NVGN1QsvE05lHhUL/95uEI8EbdLtSgkkcDcaU2JPNx515IbgC/440B0OHFs77ugUbKtsgMtOB9VRso4aKVi5rBbGVzK3XkejWnW17Ezjk+0wRWNWOqEjN2uiYzqfcP0py/uml32zHnovif7GqVpvOQGR+/HprPTg5U5l/d2+dt2ivCkkCMUmcUNWx4DaaNS5AraBgbKxK5tZAKTevj/DjJ1FfrnjurYXBazF2dH8rJHOMB+DtXbLUlzm5z5uM1fWbs37Anvru5i/+YVxQ+wmyB0Zil/XhD46pvRmCLn5D6GRVKfInp0vD7HtHTWM0n8VG8YWr9vdHXl6evFdyd+lfN++1+xvYq6fW38MINnpmDiBMX4aD0GHPfjzY3BZuWQmTCFK05ea83vl8GKbD+JdRTVBN/9ko="
 
 before_install:
   - . ./tools/ci/before-install.sh
@@ -82,4 +84,4 @@ deploy:
     # FIXME conditional publish, try to prevent error
     condition: $DO_GITHUB_DEPLOY = 1
 
-# Sync: U-S:
+# Copy: U-S:

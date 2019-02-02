@@ -49,4 +49,4 @@ tail -n 1 "$builds_log"
 wc -l "$builds_log" || true
 
 dckr_pushlogs
-# Sync: U-S:
+# Copy: U-S:

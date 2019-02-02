@@ -4,8 +4,8 @@ set -euo pipefail
 
 : "${dckr_user:="treebox"}"
 : "${repo_id:="origin"}"
-: "${repo_rev:="r0.1"}"
-: "${repo_slug:="bvberkum/x-ci"}"
+: "${repo_rev:="r0.1"}" # No-Sync
+: "${repo_slug:="bvberkum/x-ci"}" # No-Sync
 
 w=/src/github.com/${repo_slug}
 u=${dckr_user}
@@ -27,4 +27,4 @@ docker exec -w $w -u $u -ti ${c} git reset --hard ${repo_id}/${repo_rev}
 
 docker exec -w $w -u $u -ti ${c} bash -c '. ./sh-ci'
 
-# Id: u-s/0.0 sh-treebox-ci
+# Copy: U-S:

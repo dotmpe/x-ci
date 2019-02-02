@@ -7,4 +7,4 @@ export_stage success && announce_stage
 
 close_stage
 set +eu
-# Sync: U-S:
+# Copy: U-S:

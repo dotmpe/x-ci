@@ -39,5 +39,5 @@ echo
 $INIT_LOG note "" "ci/parts/init Done"
 
 ci_announce 'Starting build'
-# Sync: BIN:
+# Copy: BIN:
 # Id: script-mpe/0.0.4-dev tools/ci/parts/init.sh
