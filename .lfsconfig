@@ -1,2 +1,3 @@
-[lfs]
-	url = http://localhost:32808/info/lfs
+# cd /srv/git-lfs-local/x-ci && LFS_ADMINUSER=admin LFS_ADMINPASS=admin lfs-test-server
+[remote "24-2-bare"]
+	lfsurl = http://localhost:8080/
