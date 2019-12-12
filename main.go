@@ -1,4 +1,4 @@
-package main // import "github.com/bvberkum/x-ci"
+package main // import "github.com/dotmpe/x-ci"
 
 import (
 	"os"
