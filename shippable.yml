@@ -1,0 +1,15 @@
+language: none
+
+git:
+  submodules: true
+
+build:
+  pre_ci_boot:
+    image_name: dotmpe/testbox
+    image_tag: latest # 0.0.4-bionic
+    pull: true
+
+  ci:
+    - sudo docker version && sudo docker info
+
+# Id: X-CI:shippable.yml

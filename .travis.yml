@@ -66,3 +66,5 @@ deploy:
     tags: true # Create releases from version tags always seems to work
     # FIXME conditional publish, try to prevent error
     condition: $DO_GITHUB_DEPLOY = 1
+
+# Id: X-CI:.travis.yml
