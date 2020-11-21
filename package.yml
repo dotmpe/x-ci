@@ -17,7 +17,8 @@
     builds:
       - https://travis-ci.org/dotmpe/x-ci
   repositories:
-    github: git@github.com:dotmpe/x-ci.git
+    gh: git@github.com:dotmpe/x-ci.git
+    bb: git@bitbucket.org:dotmpe/x-ci.git
   scripts:
     init:
       - htd package update
