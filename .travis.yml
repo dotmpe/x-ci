@@ -7,7 +7,7 @@ language: go
 
 env:
   global:
-    - NS_NAME=bvberkum
+    - NS_NAME=dotmpe
     - APP_ID=x-ci
     - BUILD_GOARCH="386 amd64 arm" 
     - BUILD_GOOS="linux" 
