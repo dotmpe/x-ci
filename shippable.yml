@@ -13,6 +13,7 @@ build:
     pull: true
 
   ci:
+    - env
     - docker version && sudo docker info
     - docker login --help
     - docker login --username $DOCKER_USER --email "$DOCKER_EMAIL" --password "$DOCKER_PASS"
