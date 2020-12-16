@@ -15,10 +15,10 @@ build:
   ci:
     - env
     - docker version && sudo docker info
-    - docker login --version
+    - docker login version
     - docker login --help
-    #- docker login --username $DOCKER_USER --email "$DOCKER_EMAIL" --password "$DOCKER_PASS"
-    #- docker pull dotmpe/ledge
+    - docker login --username $DOCKER_USER --email "$DOCKER_EMAIL" --password "$DOCKER_PASS"
+    - docker pull dotmpe/ledge
 
 
 # Id: X-CI:shippable.yml
