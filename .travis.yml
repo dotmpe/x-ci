@@ -14,8 +14,8 @@ env:
   global:
     - NS_NAME=dotmpe
     - APP_ID=x-ci
-    - BUILD_GOARCH="386 amd64 arm" 
-    - BUILD_GOOS="linux" 
+    - BUILD_GOARCH="386 amd64 arm"
+    - BUILD_GOOS="linux"
     - DO_GITHUB_DEPLOY=1
 
 script:
@@ -29,7 +29,7 @@ after_success:
 #  - export RELEASE_PKG_FILE=$(echo $APP_ID* | awk '{print $1}')
 #  - test -e "$RELEASE_PKG_FILE" && export FILE_EXISTS=1 || export FILE_EXISTS=0
 #  - test $FILE_EXISTS -eq 1 && echo "deploying $RELEASE_PKG_FILE to GitHub releases" || echo "nothing to deploy to github $RELEASE_PKG_FILE"
-  
+
 deploy:
   provider: releases
   api_key:
