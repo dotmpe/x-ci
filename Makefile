@@ -11,7 +11,7 @@ $/%.gv: $/%.gv.sh
 	htd package update ; . ./.htd/package.sh ; \
 	. ./$<2.sh > $@ ;
 	@rm ./$<2.sh
-	
+
 $/asset/%.png: $/%.gv
 	@mkdir -vp $$(dirname $@)
 	dot -Tpng -o$@ $<
@@ -24,7 +24,7 @@ $/asset/%.svg: $/%.gv
 default: all
 .PHONY: default all check doc all clean
 
-DOCS = README.html 
+DOCS = README.html
 ASSETS = asset/README-fig1.svg
 
 $(DOCS) $(ASSETS): Makefile

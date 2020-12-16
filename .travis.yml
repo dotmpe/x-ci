@@ -22,8 +22,8 @@ env:
   global:
     - NS_NAME=dotmpe
     - APP_ID=x-ci
-    - BUILD_GOARCH="386 amd64 arm" 
-    - BUILD_GOOS="linux" 
+    - BUILD_GOARCH="386 amd64 arm"
+    - BUILD_GOOS="linux"
     - DO_GITHUB_DEPLOY=1
     - DOCKER_USERNAME=$NS_NAME
     - secure: "qT1SeCagJrYJ7mIo3dvtjAZtZLcHVqpJMh6M7hbo+5vKDPE+TZqFjKhiwt/9cw37vG2wgBnYHY2wl2Uenw1LzWkHaKsjtRQ2xqiGc7iXffaaKUOkf75YA0cvppfVXIRwb/ZkIbA0ZOWCeEM9qvCA2rsmGmud1ksxbP0kotkwHpjwsxexaq6JoKRe1EuEBDR4hCkfUN5fFDnzkFyscWtSpgnO1/Z0/pn2zY85Q1M+I4n1X9w5PoXiJ+cQZGenQqhNVoEio4NKKiUCbQDjYaMY186fPnJhR0LraK6V7rdG+btTXyiZ2TWnx9Je8AZO/6Bfc16pySCdS6inkxqZtQjtdttTiGHkHi4n7YuS7GfQNetqbUu9nyRjFiDyGFLbSJy9HussTjIh6QXN+OnDxbW9WNcLmLWOoB4+TxF70TqYkQzsHwyB8KSGaQO9m/0/DmXkSnj+ezvLeXbKHFunQUKbzlgQdul7P1iIrVDbh82CbWhJjjXf1G6vGp3SAA43ye9bt8SVPpl5efX65t1XjfhE6NYgjTi66az07BDE/jBz61wvfPvmt8OWX/FwVqZQEg3le6fKXy8AxyCzu6+p4sXpnrKnlvf5IK02ZspCpx5boHvk0KderJRmyzoqWb9k0HKAaBYRB6fQe5JuAU6eP5btJG+rkBV7n4bnrY1yhEDVI+o="
@@ -67,7 +67,7 @@ branches:
 #  - export RELEASE_PKG_FILE=$(echo $APP_ID* | awk '{print $1}')
 #  - test -e "$RELEASE_PKG_FILE" && export FILE_EXISTS=1 || export FILE_EXISTS=0
 #  - test $FILE_EXISTS -eq 1 && echo "deploying $RELEASE_PKG_FILE to GitHub releases" || echo "nothing to deploy to github $RELEASE_PKG_FILE"
-  
+
 deploy:
   provider: releases
   api_key:
