@@ -5,19 +5,20 @@
   license: GPL-3.0
   urls:
     base:
-      - http://github.com/bvberkum/x-ci
+      - http://github.com/dotmpe/x-ci
     license:
       - https://www.gnu.org/licenses/gpl-3.0.txt
       - https://choosealicense.com/licenses/gpl-3.0/
       - https://opensource.org/licenses/gpl-license
     source-code:
-      - http://github.com/bvberkum/x-ci.git
+      - http://github.com/dotmpe/x-ci.git
     images:
-      - https://hub.docker.com/r/bvberkum/x-ci
+      - https://hub.docker.com/r/dotmpe/x-ci
     builds:
-      - https://travis-ci.org/bvberkum/x-ci
+      - https://travis-ci.org/dotmpe/x-ci
   repositories:
-    github: git@github.com:bvberkum/x-ci.git
+    gh: git@github.com:dotmpe/x-ci.git
+    bb: git@bitbucket.org:dotmpe/x-ci.git
   scripts:
     init:
       - htd package update

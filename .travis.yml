@@ -20,7 +20,7 @@ language: shell
 env:
   matrix: []
   global:
-    - NS_NAME=bvberkum
+    - NS_NAME=dotmpe
     - APP_ID=x-ci
     - BUILD_GOARCH="386 amd64 arm" 
     - BUILD_GOOS="linux" 
@@ -84,4 +84,5 @@ deploy:
     # FIXME conditional publish, try to prevent error
     condition: $DO_GITHUB_DEPLOY = 1
 
-# Copy: U-S:
+# Sync: U-S:
+# Id: X-CI:.travis.yml
