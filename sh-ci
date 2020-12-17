@@ -7,7 +7,7 @@ unset LOG INIT_LOG CWD U_S
 
 : "${CWD:="$PWD"}"
 
-: "${U_S:="$HOME/.basher/cellar/packages/bvberkum/user-scripts"}"
+: "${U_S:="$PWD/vnd/dotmpe/user-scripts"}"
 : "${sh_tools:="$U_S/tools/sh"}"
 : "${LOG:="$sh_tools/log.sh"}"
 : "${INIT_LOG:="$LOG"}"
