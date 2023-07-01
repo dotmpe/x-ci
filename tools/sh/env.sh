@@ -4,42 +4,34 @@
 
 test -z "${sh_env_:-}" && sh_env_=1 || return 98 # Recursion
 
+test ${DEBUG:-0} -ne 0 || DEBUG=
 : "${CWD:="$PWD"}"
-: "${sh_tools:="$CWD/tools/sh"}"
 
-. "$U_S/tools/sh/parts/env-strict.sh"
+test "${env_strict_-}" = "0" || {
+  . "$CWD/tools/sh/parts/env-strict.sh" && env_strict_=$?; }
 
-: "${ci_tools:="$CWD/tools/ci"}"
-: "${build_tab:=".build.tab"}"
-: "${U_S:="$CWD/vnd/bvberkum/user-scripts"}"
+# FIXME: generate local static env
+true "${BIN:="$HOME/bin"}"
+test ! -e $BIN/.env.sh || . $BIN/.env.sh
+test ! -e $CWD/.htd/meta.sh || . $CWD/.htd/meta.sh
 
 : "${SUITE:="Sh"}"
-: "${init_sh_boot:=0}"
-: "${sh_main_cmdl:="spec sh-baseline.tab"}"
+: "${build_txt:=".build.tab"}" # No-sync
+: "${APP_LBL:="Script.mpe"}" # No-Sync
+: "${APP_ID:="script-mpe"}" # No-Sync
+: "${sh_main_cmdl:="spec"}"
+: "${U_S:="/srv/project-local/user-scripts"}" # No-Sync
 export scriptname=${scriptname:-"`basename -- "$0"`"}
-
-SCRIPTPATH=
 
 test -n "${sh_util_:-}" || {
 
-  test "$SUITE" != "CI" || {
-    test -d $U_S/.git || {
-    #  rm -rf $U_S || true
-      git clone https://github.com/bvberkum/user-scripts $U_S
-    }
-    #(
-    #  cd $U_S && git fetch --all && git reset --hard origin/feature/docker-ci
-    #)
-  }
-
-  . "$sh_tools/util.sh"
+  . "${sh_tools:=$CWD/tools/sh}/util.sh"
 }
 
-test -z "${DEBUG:-}" -a -z "${CI:-}" ||
-  print_yellow "${SUITE} Env parts" "$(suite_from_table "${build_tab}" "Parts" "${SUITE}" 0|tr '\n' ' ')" >&2
+sh_include print-color remove-dupes unique-paths
 
-suite_source "${build_tab}" "${SUITE}" 0
+suite_source "${build_txt}" "${SUITE}" 0
 
-test -z "$DEBUG" || print_green "" "Finished sh:env ${SUITE} <$0>"
+test -z "${DEBUG:-}" || print_green "" "Finished sh:env ${SUITE} <$0>"
 
-# Copy: U-S:
+# Sync: U-S:

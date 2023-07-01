@@ -10,4 +10,4 @@ test -n "${sh_util_:-}" || {
 
 sh_include std-ci-helper
 
-# Copy: U-S:
+# Sync: U-S:

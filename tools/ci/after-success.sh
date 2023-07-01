@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
-# CI suite stage 6a. See .travis.yml
-set -eu
+
+# CI suite stage 6a.
+
 export_stage success && announce_stage
 
-#sh_include publish-docker-hub # Docker hub upload
+export BUILD_STATUS=success
+sh_include publish
 
 close_stage
-set +eu
-# Copy: U-S:
+# Sync: U-S:
